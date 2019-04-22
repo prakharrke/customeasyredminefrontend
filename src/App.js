@@ -1,25 +1,26 @@
 import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
-
+import * as Constants from './Constants'
+import './css/bootstrap.min.css'
+import './css/bootstrap.css'
+import './css/matall.css';
+import './css/transition.css'
+import Routes from './Routes'
 class App extends Component {
+  componentWillMount(){
+
+    Constants.url = 'http://localhost:' + '7070' + '/customeasyredmine/'
+    //Constants.url = window.location.protocol + "//" + window.location.hostname + ":" + window.location.port + '/PVPUI/'
+    console.log("LOCATION PORT " + Constants.url)
+    console.log("LOCATION PORT " + window.location.hostname)
+  }
   render() {
     return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
+       <div className="App stylesContainer">
+        
+        <Routes />
+
       </div>
     );
   }
