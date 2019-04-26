@@ -9,7 +9,7 @@
     "@progress/kendo-data-query": "^1.5.0",
     "@progress/kendo-drawing": "^1.5.7",
     "@progress/kendo-popups-react-wrapper": "^2018.3.1017",
-    "@progress/kendo-react-buttons": "^2.4.0",
+    "@progress/kendo-react-buttons": "^2.10.0",
     "@progress/kendo-react-charts": "^2.5.0",
     "@progress/kendo-react-dateinputs": "^2.4.0",
     "@progress/kendo-react-dialogs": "^2.5.0",

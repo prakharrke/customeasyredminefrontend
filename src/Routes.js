@@ -4,15 +4,15 @@ import LoginForm from './Scenes/LoginForm'
 import axios from 'axios';
 import * as Constants from './Constants'
 import Home from './Scenes/Home'
+import Loading from './Scenes/Components/Loading'
 const PrivateRoute = ({ component: Component, ...rest }) => {
-
-	console.log(rest)
+	
 
 	return (
 		<Route  {...rest} render={props => (
 
 			rest.isAuthenticated ? (
-				<Component {...props} />
+				<Component {...props} projects={rest.projects} />
 			) : (
 					<Redirect to={{
 						pathname: "/login",
@@ -23,38 +23,79 @@ const PrivateRoute = ({ component: Component, ...rest }) => {
 }
 
 
-export default class Routes extends Component{
-	constructor(props){
+export default class Routes extends Component {
+	constructor(props) {
 		super(props);
-		this.state={
+		this.state = {
 
-			isAuthenticated : false
+			isAuthenticated: false,
+			isLoading: true,
+			projects : []
 		}
 	}
 
-	componentWillMount(){
-		axios.post(Constants.url + 'Authentication', `userDetails=${JSON.stringify({ username: "", password:"" })}`, {
+	componentWillMount() {
+		let jwt = localStorage.getItem('jwt');
+		console.log('JWT Token ' + jwt)
+		if (jwt == null || jwt == undefined) {
+			console.log('RETURNING')
+			this.setState({
+				...this.state,
+				isLoading: false
+			})
+			return
+		}
+		axios.post(Constants.url + 'TokenValidation', `userDetails=${JSON.stringify({ username: "", password: "" })}`, {
 			headers: {
-			}
+
+				'Authorization': 'Bearer ' + jwt
+			},
+			credentials: 'include'
 
 
-		}).then(response=>{
-			console.log(response.data);
+		}).then(response => {
+			console.log(response);
+			var projects = response.data.projects;
+			
+			this.setState({
+				isAuthenticated: true,
+				isLoading: false,
+				projects : projects
+			})
+
+		}).catch(e => {
+			localStorage.removeItem('jwt');
+			this.setState({
+				isAuthenticated: false,
+				isLoading: false
+			})
 
 		})
 	}
 
-		render() {
-
+	render() {
+		var loadingComponent = this.state.isLoading ? <Loading /> : ""
 		return (
-
+			<div>
+			{loadingComponent}
+			{!this.state.isLoading &&
 			<HashRouter basename="/customeasyredmine" >
+				
 
 				<Switch>
-				<Route  path='/login' render={props=>{return (<LoginForm isUserAuthenticated={this.state.isUserAuthenticated} />)}} />
-				<PrivateRoute isAuthenticated={this.state.isUserAuthenticated} path='/' component = {Home}/>
+				
+					
+						
+						<Route path='/login' render={props => { return (<LoginForm isUserAuthenticated={this.state.isAuthenticated} />) }} />
+						<PrivateRoute isAuthenticated={this.state.isAuthenticated} projects = {this.state.projects} path='/' component={Home} />
+					
 				</Switch>
+				
 			</HashRouter>
+
+		}
+
+		</div>
 
 		)
 	}
