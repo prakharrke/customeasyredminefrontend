@@ -6,6 +6,7 @@ import * as Constants from '../Constants'
 import { BrowserRouter, Route, Router, HashRouter, Redirect, Switch } from 'react-router-dom';
 import ProjectIssues from './Components/ProjectIssues'
 import Projects from './Projects'
+import Issues from './Issues'
 export default class Home extends Component {
 
 	constructor(props) {
@@ -22,12 +23,12 @@ export default class Home extends Component {
 		var searchString = event.filter.value;
 		var jwt = localStorage.getItem('jwt');
 		if (jwt == null) {
-			window.location.reload();
+			//window.location.reload();
 		}
 		axios.post(Constants.url + 'AutoCompleteProjects', `autoCompleteString=${encodeURIComponent(searchString)}`,
 			{
 				headers: {
-					'Authorization': 'Bearer ' + jwt
+					
 				}
 			}).then(response => {
 				var searchProjects = response.data.projects;
@@ -39,7 +40,7 @@ export default class Home extends Component {
 
 				console.log(e);
 				localStorage.removeItem('jwt')
-				window.location.reload();
+				//window.location.reload();
 			})
 	}
 
@@ -92,6 +93,11 @@ export default class Home extends Component {
 					<Route path="/projects/:projectID?" render={props => {
 						return (
 							<Projects {...props}/>
+						)
+					}} />
+					<Route path="/issues/" render={props => {
+						return (
+							<Issues {...props}/>
 						)
 					}} />
 				</Switch>

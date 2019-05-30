@@ -28,8 +28,8 @@ export default class Routes extends Component {
 		super(props);
 		this.state = {
 
-			isAuthenticated: false,
-			isLoading: true,
+			isAuthenticated: true,
+			isLoading: false,
 			projects : []
 		}
 	}
@@ -45,7 +45,7 @@ export default class Routes extends Component {
 			})
 			return
 		}
-		axios.post(Constants.url + 'TokenValidation', `userDetails=${JSON.stringify({ username: "", password: "" })}`, {
+		/*axios.post(Constants.url + 'TokenValidation', `userDetails=${JSON.stringify({ username: "", password: "" })}`, {
 			headers: {
 
 				'Authorization': 'Bearer ' + jwt
@@ -70,7 +70,7 @@ export default class Routes extends Component {
 				isLoading: false
 			})
 
-		})
+		})*/
 	}
 
 	render() {

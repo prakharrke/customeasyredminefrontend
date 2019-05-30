@@ -19,7 +19,7 @@ export default class LoginForm extends Component {
 	}
 	componentWillMount(){
 
-		if(localStorage.getItem('jwt') != null)
+		/*if(localStorage.getItem('jwt') != null)
 			return
 
 		axios.get(Constants.url + 'GetLoginPage')
@@ -38,7 +38,7 @@ export default class LoginForm extends Component {
 			
 
 
-		})
+		})*/
 
 	}
 

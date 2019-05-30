@@ -18,7 +18,7 @@ export default class ProjectIssues extends Component {
 	}
 
 	componentDidMount() {
-		var jwt = localStorage.getItem('jwt');
+		/*var jwt = localStorage.getItem('jwt');
 		if (jwt == null) {
 			window.location.reload();
 		}
@@ -39,7 +39,28 @@ export default class ProjectIssues extends Component {
 			console.log(e)
 			//localStorage.removeItem('jwt');
 			//window.location.reload();
+		})*/
+
+	var projectID = this.props.match.params.id;
+	alert(projectID)
+		axios.get(Constants.url + projectID, {
+
+			headers: {
+				'ws_token': 'eyJ0eXBlIjoiSldUIiwiYWxnIjoiSFM1MTIifQ.eyJpYXQiOjE1NTc0OTMwODEsImlzcyI6ImVxdWJlbWkiLCJzdWIiOiJwcmFraGFyIiwiYXVkIjoiZXF1YmVtaSIsInRfdHlwZSI6InVzZXItdG9rZW4iLCJpcF9hZHIiOiIxOTIuMTY4LjQyLjQzIiwic3Nfbm9kZSI6IkRUMDEwNzAxNTMudGVjaG5vbG9naWMuY29tXzgxODEiLCJhX3Rva2VuIjoiU1QtaEtvT3ZGVjdFWURxTUpqYjlnNnkiLCJ1cm4iOiIvZVFTZXJ2aWNlR2F0ZXdheS9BUEkvTG9naW5TZXJ2aWNlL2xvZ2luIiwidWFndCI6Ik1vemlsbGEvNS4wIChXaW5kb3dzIE5UIDEwLjA7IFdpbjY0OyB4NjQpIEFwcGxlV2ViS2l0LzUzNy4zNiAoS0hUTUwsIGxpa2UgR2Vja28pIENocm9tZS83NC4wLjM3MjkuMTMxIFNhZmFyaS81MzcuMzYifQ.UozJGc1d1FVuj1RJa-RT79oxDmoHNKS0NNoSbBgT_jh9-MAVBWy7GBKBcpVy2FeAW8MtCMq-S9_Myz5Zd37NSg',
+				'Content-Type' : 'text/plain' 
+			}
+		}).then(response => {
+			this.setState({
+				...this.state,
+				issues: response.data.issues,
+				isLoading: false
+			})
+		}).catch(e => {
+			console.log(e)
+			//localStorage.removeItem('jwt');
+			//window.location.reload();
 		})
+
 	}
 
 	static getDerivedStateFromProps(nextProps, prevProps) {
@@ -55,14 +76,14 @@ export default class ProjectIssues extends Component {
 		console.log(this.state)
 		console.log(prevState)
 
-		if (this.state.projectID !== prevState.projectID) {
+	/*	if (this.state.projectID !== prevState.projectID) {
 
 			var jwt = localStorage.getItem('jwt');
 		if (jwt == null) {
 			window.location.reload();
 		}
-
-		var projectID = this.state.projectID;
+	
+		
 		axios.post(Constants.url + 'GetProjectIssues', `projectID=${encodeURIComponent(projectID)}`, {
 
 			headers: {
@@ -78,8 +99,26 @@ export default class ProjectIssues extends Component {
 			console.log(e)
 			//localStorage.removeItem('jwt');
 			//window.location.reload();
+		})*/
+		var projectID = this.state.projectID;
+		alert(projectID)
+		axios.get(Constants.url + projectID,  {
+
+			headers: {
+				'WS_TOKEN': 'eyJ0eXBlIjoiSldUIiwiYWxnIjoiSFM1MTIifQ.eyJpYXQiOjE1NTc0OTMwODEsImlzcyI6ImVxdWJlbWkiLCJzdWIiOiJwcmFraGFyIiwiYXVkIjoiZXF1YmVtaSIsInRfdHlwZSI6InVzZXItdG9rZW4iLCJpcF9hZHIiOiIxOTIuMTY4LjQyLjQzIiwic3Nfbm9kZSI6IkRUMDEwNzAxNTMudGVjaG5vbG9naWMuY29tXzgxODEiLCJhX3Rva2VuIjoiU1QtaEtvT3ZGVjdFWURxTUpqYjlnNnkiLCJ1cm4iOiIvZVFTZXJ2aWNlR2F0ZXdheS9BUEkvTG9naW5TZXJ2aWNlL2xvZ2luIiwidWFndCI6Ik1vemlsbGEvNS4wIChXaW5kb3dzIE5UIDEwLjA7IFdpbjY0OyB4NjQpIEFwcGxlV2ViS2l0LzUzNy4zNiAoS0hUTUwsIGxpa2UgR2Vja28pIENocm9tZS83NC4wLjM3MjkuMTMxIFNhZmFyaS81MzcuMzYifQ.UozJGc1d1FVuj1RJa-RT79oxDmoHNKS0NNoSbBgT_jh9-MAVBWy7GBKBcpVy2FeAW8MtCMq-S9_Myz5Zd37NSg' 
+			}
+		}).then(response => {
+			this.setState({
+				...this.state,
+				issues: response.data.issues,
+				isLoading: false
+			})
+		}).catch(e => {
+			console.log(e)
+			//localStorage.removeItem('jwt');
+			//window.location.reload();
 		})
-		}
+		
 	}
 
 	render() {

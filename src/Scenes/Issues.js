@@ -40,6 +40,16 @@ export default class Issues extends Component{
 							<IssuesTable {...props}/>
 						)
 					}} />
+					<Route path="/issues/:issueID" render={props => {
+						return (
+							<IssueDetails {...props}/>
+						)
+					}} />
+					<Route path="/issues/" render={props => {
+						return (
+							<IssuesTable {...props}/>
+						)
+					}} />
 
 				</Switch>
 				

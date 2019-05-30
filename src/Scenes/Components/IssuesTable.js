@@ -6,71 +6,34 @@ import * as Constants from '../../Constants'
 import { Grid, GridColumn as Column } from '@progress/kendo-react-grid';
 import Loading from './Loading'
 import { BrowserRouter, Route, Router, HashRouter, Redirect, Switch } from 'react-router-dom';
+import IssueSubjectCell from './IssueSubjectCell'
+export default class IssuesTable extends Component {
 
-export default class IssuesTable extends Component{
 
-
-	constructor(props){
+	constructor(props) {
 
 		super(props);
-		this.state={
-			url : "",
-			issues : [],
-			isLoading : true
+		this.state = {
+			url: "",
+			issues: [],
+			isLoading: true
 		}
 	}
 
-	componentDidMount(){
+	componentDidMount() {
 
 		console.log("Issues Table")
 		console.log(this.props)
 		var jwt = localStorage.getItem('jwt');
 		if (jwt == null) {
-			window.location.reload();
+			//window.location.reload();
 		}
 
 		var url = this.props.match.url;
 		axios.post(Constants.url + 'GetIssues', `url=${encodeURIComponent(url)}`, {
 
 			headers: {
-				'Authorization': 'Bearer ' + jwt
-			}
-		}).then(response => {
-			this.setState({
-				...this.state,
-				issues : response.data.issues,
-				isLoading : false
-			})
-		}).catch(e => {
-			console.log(e)
-			//localStorage.removeItem('jwt');
-			//window.location.reload();
-		})
-	}
-
-	static getDerivedStateFromProps(nextProps, prevProps) {
-
-		
-		return { url : nextProps.match.url }
-	}
-
-	componentDidUpdate(prevProps, prevState) {
-		console.log('********************')
-		console.log(this.state)
-		console.log(prevState)
-
-		if (this.state.url !== prevState.url) {
-
-			var jwt = localStorage.getItem('jwt');
-		if (jwt == null) {
-			window.location.reload();
-		}
-
-		var url = this.state.url;
-		axios.post(Constants.url + 'GetIssues', `url=${encodeURIComponent(url)}`, {
-
-			headers: {
-				'Authorization': 'Bearer ' + jwt
+				
 			}
 		}).then(response => {
 			this.setState({
@@ -83,10 +46,47 @@ export default class IssuesTable extends Component{
 			//localStorage.removeItem('jwt');
 			//window.location.reload();
 		})
+	}
+
+	static getDerivedStateFromProps(nextProps, prevProps) {
+
+
+		return { url: nextProps.match.url }
+	}
+
+	componentDidUpdate(prevProps, prevState) {
+		console.log('********************')
+		console.log(this.state)
+		console.log(prevState)
+
+		if (this.state.url !== prevState.url) {
+
+			var jwt = localStorage.getItem('jwt');
+			if (jwt == null) {
+				window.location.reload();
+			}
+
+			var url = this.state.url;
+			axios.post(Constants.url + 'GetIssues', `url=${encodeURIComponent(url)}`, {
+
+				headers: {
+					
+				}
+			}).then(response => {
+				this.setState({
+					...this.state,
+					issues: response.data.issues,
+					isLoading: false
+				})
+			}).catch(e => {
+				console.log(e)
+				//localStorage.removeItem('jwt');
+				//window.location.reload();
+			})
 		}
 	}
 
-		render() {
+	render() {
 		var loading = this.state.isLoading ? <Loading /> : ""
 
 
@@ -100,6 +100,9 @@ export default class IssuesTable extends Component{
 						<div className="col-lg-10">
 							<Grid
 								data={this.state.issues}
+								resizable={true}
+								reorderable={true}
+								filterable={false}
 							>
 								<Column
 									field="id"
@@ -118,6 +121,7 @@ export default class IssuesTable extends Component{
 								<Column
 									field="subject"
 									title="Subject"
+									cell={props => { return (<IssueSubjectCell {...props} url={this.props.match.url}/>) }}
 								/>
 								<Column
 									field="created_on"
