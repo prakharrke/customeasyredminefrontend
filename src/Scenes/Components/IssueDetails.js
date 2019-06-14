@@ -10,6 +10,7 @@ import { Input, NumericTextBox } from '@progress/kendo-react-inputs';
 import { TabStrip, TabStripTab } from '@progress/kendo-react-layout';
 import ReactHtmlParser, { processNodes, convertNodeToElement, htmlparser2 } from 'react-html-parser';
 import IssueComments from './IssueComments'
+import { PanelBar, PanelBarItem } from '@progress/kendo-react-layout';
 export default class IssueDetails extends Component {
 
 
@@ -287,12 +288,16 @@ export default class IssueDetails extends Component {
 									}
 								</div>
 							</div>
-							<div className="row">
-								<div className="col-lg-10 d-flex flex-column justify-content-start align-items-start">
+							<div style={{marginTop : '2em'}}>
+								<PanelBar>
+									<PanelBarItem title="Details">
 									{ReactHtmlParser(this.state.issueDetails.description)}
-								</div>
+									</PanelBarItem>
+								</PanelBar>
 							</div>
-
+							<div style={{marginTop:'2em'}}>
+							<PanelBar>
+								<PanelBarItem title="Attachments">
 							{
 								this.state.issueDetails.attachments.map(attachment => {
 
@@ -313,7 +318,9 @@ export default class IssueDetails extends Component {
 									)
 								})
 							}
-
+							</PanelBarItem>
+							</PanelBar>
+							</div>
 							<div className="row ">
 								<div className="col-lg-10">
 									<TabStrip selected={this.state.selected} onSelect={this.handleSelect.bind(this)}>
